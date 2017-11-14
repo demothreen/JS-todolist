@@ -2,9 +2,8 @@
 
 var todolist = [];
 
-if (localStorage !== undefined) {
-    //если localStorage существует, то вывести все что в нем есть
-    //пока в процессе
+if (localStorage.getItem('todo') !== undefined) {
+    todolist = JSON.parse(localStorage.getItem('todo'));
 }
 
 function addTask() {
@@ -23,21 +22,30 @@ function addTask() {
     var i = todolist.length;
     todolist[i] = task;
 
+    //записываем объект в localStorage
+
+    localStorage.setItem('todo', JSON.stringify(todolist));
+
+    createTodo();
+
     function createTodo() {
-
-        //записываем объект в localStorage
-
-        localStorage.setItem(i, d);
 
         //создаем тэг <li> и выводим туда данные от user
 
-        var myTask = localStorage[i];
+        var myTask = todolist[i].todo;
         var list = document.getElementById('myUl');
         var entry = document.createElement('li');
         var lists = document.querySelector('ul');
 
         //проверка на пустые символы и пробелы
         //если все ок, то добавляем в локал значение
+
+        lists.addEventListener('click', function(check) {
+            if (check.target.tagName === 'LI') {
+                check.target.classList.toggle('checked');
+            }
+        });
+
         //при клике добавляем в тэг <li> класс "checked"
 
         if (!d.replace(/^\s+|\s+$/g, '')) {
@@ -46,13 +54,9 @@ function addTask() {
             entry.appendChild(document.createTextNode(myTask));
             list.appendChild(entry);
 
-            lists.addEventListener('click', function(check) {
-                if (check.target.tagName === 'LI') {
-                    check.target.classList.toggle('checked');
-                }
-            });
+
         }
     }
-    createTodo()
+
 }
 
