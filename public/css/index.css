@@ -1,0 +1,49 @@
+* {
+    box-sizing: border-box;
+}
+
+.todolist {
+    background-color: #0c3119;
+    padding: 30px 40px;
+    color: white;
+    text-align: center;
+    border-radius: 7px;
+}
+
+.input {
+    height: 35px;
+    width: 350px;
+    border-radius: 7px;
+}
+
+.body {
+    width: 650px;
+    height: auto;
+    left: 30%;
+    position: absolute;
+    padding: 7px;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    cursor: pointer;
+    position: relative;
+    padding: 12px 8px 12px 40px;
+    background: #d5ffd7;
+    font-size: 18px;
+    transition: 0.2s;
+    list-style-type: none;
+    border-radius: 7px;
+    border: 2px solid #b1dfbb;
+}
+
+ul li.checked {
+    background: rgba(213, 255, 0, 0.24);
+    color: #0c3119;
+    text-decoration: line-through;
+}
+
