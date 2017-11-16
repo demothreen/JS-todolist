@@ -5,12 +5,12 @@ var i;
 
 var b = JSON.parse(localStorage.getItem('todo'));
 
-if (!b) {
+if (!b || b.length === 0) {
     b = []
 } else {
     for (var j = 0; j < b.length; j++) {
-        var g = b[j].todo;
-        showSaveTodo(g);
+        //var g = b[j].todo;
+        showSaveTodo(b[j]);
         }
 }
 
@@ -27,7 +27,7 @@ function userTodo() {
     // проверяем на пустую строку и если все ок
     // создаем новый объект с данными от пользователя
 
-    if (!userTask.replace(/^\s+|\s+$/g, '')) {
+    if (!userTask.trim()) {
         alert('Вы ничего не написали');
     } else {
         var task = {};
@@ -47,11 +47,14 @@ function userTodo() {
 Если данные уже существуют то выводим что есть в локале
  */
 
-function showSaveTodo(tasks) {
+function showSaveTodo() {
+
+    var showTask = b[j].todo;
 
     var list = document.getElementById('myUl');
     var entry = document.createElement('li');
-    entry.appendChild(document.createTextNode(tasks));
+    entry.appendChild(document.createTextNode(showTask));
+    entry.id = j;
     list.appendChild(entry);
 
 }
