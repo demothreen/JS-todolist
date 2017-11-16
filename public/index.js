@@ -4,11 +4,14 @@ var todolist = [];
 var i;
 
 var b = JSON.parse(localStorage.getItem('todo'));
-if (b.length > 0) {
+
+if (!b) {
+    b = []
+} else {
     for (var j = 0; j < b.length; j++) {
         var g = b[j].todo;
         showSaveTodo(g);
-    }
+        }
 }
 
 /*
@@ -68,6 +71,7 @@ function showTodo() {
     var list = document.getElementById('myUl');
     var entry = document.createElement('li');
     entry.appendChild(document.createTextNode(myTask));
+    entry.id = i;
     list.appendChild(entry);
 
     //записываем объект в localStorage
@@ -89,6 +93,7 @@ function checkMouseClick() {
     lists.addEventListener('click', function (check) {
         if (check.target.tagName === 'LI') {
             check.target.classList.toggle('checked');
+
         }
     });
 }

@@ -42,7 +42,7 @@ ul li {
 }
 
 ul li.checked {
-    background: rgba(213, 255, 0, 0.24);
+    background: rgb(43, 99, 45);
     color: #0c3119;
     text-decoration: line-through;
 }
