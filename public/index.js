@@ -1,17 +1,21 @@
 "use strict";
 
-var todolist = [];
-var i;
+var id;
+var todolist = {};
 
 var b = JSON.parse(localStorage.getItem('todo'));
 
-if (!b || b.length === 0) {
-    b = []
+// console.log( Object.keys(b).length);
+
+if (!b) {
+    b = {};
 } else {
-    for (var j = 0; j < b.length; j++) {
-        //var g = b[j].todo;
-        showSaveTodo(b[j]);
-        }
+    showSaveTodo(b);
+}
+
+function generateId() {
+    var id = '_' + Math.floor(Math.random() * 10000);
+    return id;
 }
 
 /*
@@ -20,12 +24,7 @@ if (!b || b.length === 0) {
 
 function userTodo() {
 
-    //получаем данные от пользователя
-
     var userTask = document.getElementById('userTask').value;
-
-    // проверяем на пустую строку и если все ок
-    // создаем новый объект с данными от пользователя
 
     if (!userTask.trim()) {
         alert('Вы ничего не написали');
@@ -34,12 +33,26 @@ function userTodo() {
         task.todo = userTask;
         task.check = false;
 
-        //добавляем объект в наш массив
+        var id = generateId();
+        todolist[id] = task;
 
-        i = todolist.length;
-        todolist[i] = task;
+        // console.log(todolist);
 
-        showTodo();
+        var myTask = todolist[id].todo;
+
+        //выводим как новый тэг <li> с текстом тудушки
+
+        var list = document.getElementById('myUl');
+        var entry = document.createElement('li');
+        entry.appendChild(document.createTextNode(myTask));
+        for (var key in todolist) {
+            entry.id = key;
+        }
+
+        list.appendChild(entry);
+
+        syncData()
+
     }
 }
 
@@ -49,38 +62,25 @@ function userTodo() {
 
 function showSaveTodo() {
 
-    var showTask = b[j].todo;
+    for (var l in b) {
+        // console.log(b[l]);
+        var showTask = b[l].todo;
 
-    var list = document.getElementById('myUl');
-    var entry = document.createElement('li');
-    entry.appendChild(document.createTextNode(showTask));
-    entry.id = j;
-    list.appendChild(entry);
+        // var showTask = b[id].todo;
+
+        var list = document.getElementById('myUl');
+        var entry = document.createElement('li');
+        entry.appendChild(document.createTextNode(showTask));
+        entry.id = l;
+        list.appendChild(entry);
+    }
 
 }
 
-/*
-Функция выводит тудушку
- */
+//записываем объект в localStorage
 
-function showTodo() {
-
-    //получаем значение тудушки
-
-    var myTask = todolist[i].todo;
-
-    //выводим как новый тэг <li> с текстом тудушки
-
-    var list = document.getElementById('myUl');
-    var entry = document.createElement('li');
-    entry.appendChild(document.createTextNode(myTask));
-    entry.id = i;
-    list.appendChild(entry);
-
-    //записываем объект в localStorage
-
+function syncData() {
     localStorage.setItem('todo', JSON.stringify(todolist));
-
 }
 
 /*
@@ -97,8 +97,49 @@ function checkMouseClick() {
         if (check.target.tagName === 'LI') {
             check.target.classList.toggle('checked');
 
+            var x = check.target.id;
+
+            if (x) {
+                b[x].check = true;
+                localStorage.setItem('todo', JSON.stringify(b));
+
+                for (var t in b) {
+                    if (b[t].check === true) {
+
+                        console.log(t);
+                        delete localStorage['t'];
+                    }
+
+                    //console.log(t);
+                }
+
+                if (b[x].check === true) {
+
+                    //delete localStorage['todo'];
+                }
+            }
         }
     });
 }
 
 checkMouseClick();
+
+// удалить выполненные тудушки
+
+function removeDone() {
+
+    //console.log(b);
+
+    // for (var t in b) {
+    //     if (b[t].check == true) {
+    //         console.log(localStorage);
+    //         // localStorage.removeItem('todo').t;
+    //     }
+    // }
+}
+
+function removeAll() {
+
+    delete localStorage['todo'];
+
+}
