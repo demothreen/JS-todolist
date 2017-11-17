@@ -1,16 +1,15 @@
 "use strict";
 
 var id;
-var todolist = {};
 
-var b = JSON.parse(localStorage.getItem('todo'));
+var todolist = JSON.parse(localStorage.getItem('todo'));
 
-// console.log( Object.keys(b).length);
+// console.log(Object.keys(todolist).length);
 
-if (!b) {
-    b = {};
+if (!todolist) {
+    todolist = {};
 } else {
-    showSaveTodo(b);
+    showSaveTodo(todolist);
 }
 
 function generateId() {
@@ -36,8 +35,6 @@ function userTodo() {
         var id = generateId();
         todolist[id] = task;
 
-        // console.log(todolist);
-
         var myTask = todolist[id].todo;
 
         //выводим как новый тэг <li> с текстом тудушки
@@ -62,9 +59,8 @@ function userTodo() {
 
 function showSaveTodo() {
 
-    for (var l in b) {
-        // console.log(b[l]);
-        var showTask = b[l].todo;
+    for (var l in todolist) {
+        var showTask = todolist[l].todo;
 
         // var showTask = b[id].todo;
 
@@ -98,25 +94,9 @@ function checkMouseClick() {
             check.target.classList.toggle('checked');
 
             var x = check.target.id;
-
             if (x) {
-                b[x].check = true;
-                localStorage.setItem('todo', JSON.stringify(b));
-
-                for (var t in b) {
-                    if (b[t].check === true) {
-
-                        console.log(t);
-                        delete localStorage['t'];
-                    }
-
-                    //console.log(t);
-                }
-
-                if (b[x].check === true) {
-
-                    //delete localStorage['todo'];
-                }
+                todolist[x].check = true;
+                syncData();
             }
         }
     });
@@ -127,19 +107,15 @@ checkMouseClick();
 // удалить выполненные тудушки
 
 function removeDone() {
-
-    //console.log(b);
-
-    // for (var t in b) {
-    //     if (b[t].check == true) {
-    //         console.log(localStorage);
-    //         // localStorage.removeItem('todo').t;
-    //     }
-    // }
+    for (var t in todolist) {
+        if (todolist[t].check === true) {
+            delete todolist[t];
+            syncData();
+        }
+    }
 }
 
 function removeAll() {
 
     delete localStorage['todo'];
-
 }
