@@ -95,7 +95,7 @@ function checkMouseClick() {
 
             let x = check.target.id;
 
-            todolist[x].check = true;
+            todolist[x].check = !todolist[x].check;
             syncData();
 
         }
