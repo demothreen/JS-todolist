@@ -59,13 +59,13 @@ function userTodo() {
 
 function showSaveTodo() {
 
-    for (var l in todolist) {
-        var showTask = todolist[l].todo;
+    for (let l in todolist) {
+        let showTask = todolist[l].todo;
 
         // var showTask = b[id].todo;
 
-        var list = document.getElementById('myUl');
-        var entry = document.createElement('li');
+        let list = document.getElementById('myUl');
+        let entry = document.createElement('li');
         entry.appendChild(document.createTextNode(showTask));
         entry.id = l;
         list.appendChild(entry);
@@ -85,7 +85,7 @@ function syncData() {
 
 function checkMouseClick() {
 
-    var lists = document.querySelector('ul');
+    let lists = document.querySelector('ul');
 
     //при клике добавляем в тэг <li> класс "checked"
 
@@ -93,11 +93,11 @@ function checkMouseClick() {
         if (check.target.tagName === 'LI') {
             check.target.classList.toggle('checked');
 
-            var x = check.target.id;
-            if (x) {
-                todolist[x].check = true;
-                syncData();
-            }
+            let x = check.target.id;
+
+            todolist[x].check = true;
+            syncData();
+
         }
     });
 }
@@ -107,7 +107,18 @@ checkMouseClick();
 // удалить выполненные тудушки
 
 function removeDone() {
-    for (var t in todolist) {
+
+    let todos = document.getElementById('myUl').children;
+
+    for (let i in todos) {
+
+        if (i.startsWith('_') && todos[i].classList.contains('checked')) {
+
+            todos[i].remove();
+        }
+    }
+
+    for (let t in todolist) {
         if (todolist[t].check === true) {
             delete todolist[t];
             syncData();
@@ -116,6 +127,14 @@ function removeDone() {
 }
 
 function removeAll() {
+
+    let todos = document.getElementById('myUl').children;
+
+    for (let i in todos) {
+        if (i.startsWith('_')) {
+            todos[i].remove()
+        }
+    }
 
     delete localStorage['todo'];
 }
