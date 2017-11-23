@@ -62,13 +62,18 @@ function showSaveTodo() {
     for (let l in todolist) {
         let showTask = todolist[l].todo;
 
-        // var showTask = b[id].todo;
+       // var showTask = b[id].todo;
 
         let list = document.getElementById('myUl');
         let entry = document.createElement('li');
+
         entry.appendChild(document.createTextNode(showTask));
         entry.id = l;
         list.appendChild(entry);
+
+        if (todolist[l].check === true){
+            entry.classList.add('checked');
+        }
     }
 
 }
@@ -95,9 +100,10 @@ function checkMouseClick() {
 
             let x = check.target.id;
 
+            console.log(todolist[x]);
+
             todolist[x].check = !todolist[x].check;
             syncData();
-
         }
     });
 }
@@ -121,10 +127,12 @@ function removeDone() {
     for (let t in todolist) {
         if (todolist[t].check === true) {
             delete todolist[t];
-            syncData();
         }
     }
+    syncData();
 }
+
+//удалить всё
 
 function removeAll() {
 
@@ -132,9 +140,15 @@ function removeAll() {
 
     for (let i in todos) {
         if (i.startsWith('_')) {
-            todos[i].remove()
+            todos[i].remove();
+
         }
     }
 
+    for (let t in todolist) {
+        delete todolist[t];
+    }
+
     delete localStorage['todo'];
+
 }
